@@ -6,6 +6,7 @@ Role based authentication is provided so Admin can <strong>Approve</strong> or <
   <li>Angular Framework is used to handle HTML components.</li>
   <li>Bootsrap and CSS is used for styling and formatting purpose.</li>
   <li>C# is used for Server Side Programming.</li>
+  <li>SQL is used as database.</li>
   <li>MVC software design pattern is adopted for Server Side Programming.</li>
   <li>Various Requests are made through API calling and Data is transferred in JSON format.</li>
 </ul>
