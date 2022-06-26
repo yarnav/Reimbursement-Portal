@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+.addNew {
+    display: inline-block;
+}
+
+.ReimbursementTable {
+    margin-top: 10px;
+}
+
+.modal {
+    color: black;
+}
+
+/* Signup CSS */
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.button{
+    border:0px;
+   outline:0px;
+}
+.reportnavbar{
+    background-color: #fff6e7;
+}

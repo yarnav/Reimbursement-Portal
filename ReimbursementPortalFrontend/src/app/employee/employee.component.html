@@ -1,0 +1,220 @@
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">My claims</a>
+            </div>
+            <!-- Logout -->
+            <button (click)="Logout()" class="btn btn-danger navbar-btn">Logout</button>
+        </div>
+    </nav>
+</div>
+
+<div>
+    <!-- Button trigger modal -->
+    <button type="button" class="addNew btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Add New Reimbursment
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div *ngIf="alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Credentitals Invalid</strong>
+                    <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="p-10 modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Reimbursement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="AddReimbursement"
+                        (ngSubmit)="GetFormValues(AddReimbursement.value); AddingReimbursement(AddReimbursement.value);">
+                        <div class="mb-3">
+                            <label class="form-label" for="inputEmail">Date</label>
+                            <input type="date" formControlName="Date" class="form-control" placeholder="Date">
+                            <span class="text-danger" *ngIf="Date && Date.touched && Date.invalid">Invalid Date</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label" for="inputEmail">Reimbursement Type</label>
+                                <select class="select" formControlName="ReimbursementType">
+                                    <option value="Medical">Medical</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Misc.">Misc.</option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="ReimbursementType && ReimbursementType.touched && ReimbursementType.invalid">Reimbursement
+                                    Type is Must</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-label">
+                                <label class="form-label">Requested Value</label>
+                                <input class="form-control" formControlName="RequestedValue" type="number" step="0.01">
+                                <span class="text-danger"
+                                    *ngIf="RequestedValue && RequestedValue.touched && RequestedValue.invalid">Invalid
+                                    Value</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-label">
+                                <label class="form-label">Currency</label>
+                                <br>
+                                <select class="select" formControlName="Currency">
+                                    <option value="INR">INR</option>
+                                    <option value="USD">USD</option>
+                                    <option value="Euro">Euro</option>
+                                </select>
+                                <span class="text-danger"
+                                    *ngIf="Currency && Currency.touched && Currency.invalid">Invalid Currency</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Upload Image</label>
+                            <input class="form-control" type="file" accept=".pdf,.jpeg,.png" formControlName="ImageURL"
+                                id="formFile">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button [disabled]="AddReimbursement.invalid" type="submit"
+                                class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table -->
+<div>
+    <table class="table ReimbursementTable">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Reimbursement Type</th>
+                <th scope="col">Requested Value</th>
+                <th scope="col">Approved Value</th>
+                <th scope="col">Currency</th>
+                <th scope="col">Request Phase</th>
+                <th scope="col">Reciept Attached</th>
+                <th scope="col">Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dataItem of Reimbursements">
+                <td>{{dataItem.Date}}</td>
+                <td>{{dataItem.ReimbursementType}}</td>
+                <td>{{dataItem.RequestedValue}}</td>
+                <td>{{dataItem.ApprovedValue}}</td>
+                <td>{{dataItem.Currency}}</td>
+                <td *ngIf="dataItem.RequestPhase || dataItem.ApprovedValue else elseBlock">Processed</td>
+                <ng-template #elseBlock>
+                    <td>To be Processed</td>
+                </ng-template>
+                <td *ngIf="dataItem.ImageURL else goToElse">Yes</td>
+                <ng-template #goToElse>
+                    <td>No Reciept</td>
+                </ng-template>
+                <td>
+                    <!-- Delete Button -->
+                    <button type="button" class="btn" (click)="DeletingReimbursement(dataItem.ReimbursementID)">
+                        <i class="fa fa-trash" style="color:red;"></i>
+                    </button>
+                    <!-- Update Button -->
+                    <button type="button" class="addNew btn" (click)="Update(dataItem.ReimbursementID)"
+                        data-toggle="modal" data-target="#EditModal">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="p-10 modal-header">
+                                    <h5 class="modal-title" id="EditModalLongTitle">Edit Reimbursement</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form [formGroup]="UpdateReimbursement"
+                                        (ngSubmit)="UpdatingReimbursement(UpdateReimbursement.value)">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="inputEmail">Date</label>
+                                            <input type="date" formControlName="Date" class="form-control"
+                                                placeholder="Date">
+                                            <span class="text-danger"
+                                                *ngIf="UpdateDate && UpdateDate.touched && UpdateDate.invalid">Invalid
+                                                Date</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label" for="inputEmail">Reimbursement Type</label>
+                                                <select class="select" formControlName="ReimbursementType">
+                                                    <option value="Medical">Medical</option>
+                                                    <option value="Food">Food</option>
+                                                    <option value="Travel">Travel</option>
+                                                    <option value="Entertainment">Entertainment</option>
+                                                    <option value="Misc.">Misc.</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="UpdateReimbursementType && UpdateReimbursementType.touched && UpdateReimbursementType.invalid">Reimbursement
+                                                    Type is Must</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-label">
+                                                <label class="form-label">Requested Value</label>
+                                                <input class="form-control" formControlName="RequestedValue"
+                                                    type="number" step=".01">
+                                                <span class="text-danger"
+                                                    *ngIf="UpdateRequestedValue && UpdateRequestedValue.touched && UpdateRequestedValue.invalid">Invalid
+                                                    Value</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-label">
+                                                <label class="form-label">Currency</label>
+                                                <br>
+                                                <select class="select" formControlName="Currency">
+                                                    <option value="INR">INR</option>
+                                                    <option value="USD">USD</option>
+                                                    <option value="Euro">Euro</option>
+                                                </select>
+                                                <span class="text-danger"
+                                                    *ngIf="UpdateCurrency && UpdateCurrency.touched && UpdateCurrency.invalid">Invalid
+                                                    Currency</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">Upload Image</label>
+                                            <input class="form-control" type="file" accept=".pdf,.jpeg,.png"
+                                                formControlName="ImageURL" id="formFile">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancel</button>
+                                            <button [disabled]="UpdateReimbursement.invalid" type="submit"
+                                                class="btn btn-primary">Done</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<router-outlet></router-outlet>

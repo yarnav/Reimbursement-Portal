@@ -1,0 +1,110 @@
+<div *ngIf="Alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Credentitals Invalid</strong>
+  <button type="button" (click)="CloseAlert()" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<section class="h-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card card-registration my-4">
+          <div class="row g-0">
+            <div class="col-xl-6 d-none d-xl-block">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                alt="Sample photo" class="img-fluid"
+                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+            </div>
+            <div class="col-xl-6">
+              <div class="card-body p-md-5 text-black">
+                <h3 class="h1 fw-bold mb-5 text-uppercase">Registration</h3>
+                <form [formGroup]="Registration" autocomplete="off" (ngSubmit)="CreateUser()">
+                  <div class="row">
+                    <div class="form-outline mb-4">
+                      <input type="Email" onkeyup="this.value = this.value.toLowerCase();" id="form3Exam6ple8"
+                        formControlName="Email" class="form-control form-control-lg" />
+                      <span class="text-danger" *ngIf="Email && Email.touched && Email.invalid">Email is must, Please
+                        Enter Proper Email</span><br>
+                      <label class="form-label" for="form3Example8">Email</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="password" id="form3Example1m1" formControlName="Password"
+                          class="form-control form-control-lg" />
+                        <span class="text-danger" *ngIf="Password && Password.touched && Password.invalid">Password is
+                          must <br> Password should contain UpperCase, LowerCase, Number, Special character and Length
+                          must be 8 or greater</span><br>
+                        <label class="form-label" for="form3Example1m1">Password</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline">
+                        <input type="password" id="form3Example1n1" formControlName="ConfirmPassword"
+                          class="form-control form-control-lg" />
+                        <span class="text-danger"
+                          *ngIf="ConfirmPassword && ConfirmPassword.touched && ConfirmPassword.invalid">Password is must
+                          <br> Password should contain UpperCase, LowerCase, Number, Special character and Length must
+                          be 8 or greater</span><br>
+                        <label class="form-label" for="form3Example1n1">Re-Type Password</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="text" id="form3Examp7le8" formControlName="Name"
+                      class="form-control form-control-lg" />
+                    <span class="text-danger" *ngIf="Name && Name.touched && Name.invalid">Please Enter Name</span><br>
+                    <label class="form-label" for="form3Example8">Full Name</label>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="text" onkeyup="this.value = this.value.toUpperCase();" id="form3Example86"
+                      formControlName="PAN" class="text-uppercase form-control form-control-lg" />
+                    <span class="text-danger" *ngIf="PAN && PAN.touched && PAN.invalid">Length must be 10 and should be
+                      Alphanumeric</span><br>
+                    <label class="form-label" for="form3Example8">PAN Number</label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <select class="select" required formControlName="Bank">
+                        <option value="ICICI Bank">ICICI Bank</option>
+                        <option value="Canara Bank">Canara Bank</option>
+                        <option value="HDFC Bank">HDFC Bank</option>
+                        <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                      </select>
+                      <br>Bank Name
+                    </div>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    <input type="text" id="form3Example9" required formControlName="AccountNumber"
+                      class="form-control form-control-lg" />
+                    <span class="text-danger"
+                      *ngIf="AccountNumber && AccountNumber.touched && AccountNumber.invalid">Invalid A/C number (must
+                      be 12 digits)</span><br>
+                    <label class="form-label" for="form3Example9">Bank Account Number</label>
+                  </div>
+
+                  <div class="d-flex justify-content-end pt-3">
+                    <button type="reset" class="btn btn-light btn-lg">Clear</button>
+                    <button [disabled]="Registration.invalid" type="sumbit"
+                      class="btn btn-primary btn-lg ms-2">Register</button>
+                  </div>
+                </form>
+                <div class="text-center">
+                  <p>Already a member? <a routerLink="/Login">Login</a></p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<router-outlet></router-outlet>

@@ -1,0 +1,30 @@
+<!--Navbar-->
+<div>
+    <nav class="navbar reportnavbar navbar-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button (click)="Goback()" class="btn btn-primary navbar-btn">Back</button>
+            </div>
+            <div class="text-uppercase fw-bold">Reimbursement Report</div>
+            <button (click)="Logout()" class="btn btn-danger navbar-btn">Logout</button>
+        </div>
+    </nav>
+</div>
+<!--MonthWise chart-->
+<div class="d-flex justify-content-center">
+    <div class="mt-5" id="divChart">
+        <canvas id="MonthChart" ng-show="datasets.visible" width="400" height="400"></canvas>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="mt-2 h5">Month-Wise Reimbursements</div>
+</div>
+<!--CategoryWise chart-->
+<div class="d-flex justify-content-center">
+    <div class="mt-5" id="divChart">
+        <canvas id="CategoryChart" ng-show="datasets.visible" width="400" height="400"></canvas>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div class="mt-2 h5">Category-Wise Reimbursements</div>
+</div>
